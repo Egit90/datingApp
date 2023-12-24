@@ -1,7 +1,21 @@
-<h1>{{ title }}</h1>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+  </head>
 
-<ul>
-  <li *ngFor="let user of users">{{ user.id }} - {{ user.username }}</li>
-</ul>
-
-<h1 class="text-2xl text-pink-600 font-bold bg-slate-600">Hello world!</h1>
+  <body
+    class="leading-normal tracking-normal text-indigo-400 m-1 bg-cover bg-fixed"
+    style="background-image: url('assets/header.png')"
+  >
+    <div class="h-screen">
+      <app-nav></app-nav>
+      <div class="container pt-24 md:pt-36 mx-auto items-center">
+        <app-home></app-home>
+      </div>
+    </div>
+  </body>
+</html>

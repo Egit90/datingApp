@@ -1,0 +1,4 @@
+<div *ngIf="!(accountService.currentUser$ | async)">
+  <app-landing-page></app-landing-page>
+</div>
+<app-footer></app-footer>

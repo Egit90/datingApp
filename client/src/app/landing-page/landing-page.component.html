@@ -1,0 +1,141 @@
+<div class="grid lg:grid-cols-2 gap-4">
+  <div
+    class="flex flex-col w-full justify-between overflow-y-hidden lg:items-start"
+  >
+    <h1
+      class="my-4 text-3xl md:text-5xl text-white opacity-75 font-bold leading-tight text-center md:text-left"
+    >
+      Find
+      <span
+        class="bg-clip-text text-transparent bg-gradient-to-r from-green-400 via-pink-500 to-purple-500"
+      >
+        Your Perfect
+      </span>
+      Match !
+    </h1>
+    <p
+      class="leading-normal text-base md:text-2xl mb-8 text-center md:text-left"
+    >
+      Discover Meaningful Connections
+    </p>
+
+    <!-- SignIn From -->
+    <form
+      class="bg-gray-900 opacity-75 w-full shadow-lg rounded-lg px-8 pt-6 pb-8 mb-4"
+      #loginForm="ngForm"
+      *ngIf="!registerBool"
+      (ngSubmit)="login()"
+      autocomplete="off"
+    >
+      <div class="mb-4 flex flex-col gap-4">
+        <label
+          class="block text-blue-300 py-2 font-bold mb-2"
+          for="emailaddress"
+        >
+          Already a member Login
+        </label>
+        <input
+          class="shadow appearance-none border rounded w-full p-3 text-primary leading-tight focus:ring transform transition hover:scale-105 duration-300 ease-in-out"
+          [(ngModel)]="model.username"
+          name="username"
+          type="text"
+          placeholder="User Name"
+        />
+        <input
+          class="shadow appearance-none border rounded w-full p-3 text-black leading-tight focus:ring transform transition hover:scale-105 duration-300 ease-in-out"
+          [(ngModel)]="model.password"
+          name="password"
+          type="password"
+          placeholder="Password"
+        />
+      </div>
+
+      <div class="flex items-center justify-between pt-4">
+        <button
+          class="bg-gradient-to-r from-purple-800 to-green-500 hover:from-pink-500 hover:to-green-500 text-white font-bold py-2 px-4 rounded focus:ring transform transition hover:scale-105 duration-300 ease-in-out"
+          type="submit"
+        >
+          Sign In
+        </button>
+        <button
+          class="bg-gradient-to-r from-purple-800 to-green-500 hover:from-pink-500 hover:to-green-500 text-white font-bold py-2 px-4 rounded focus:ring transform transition hover:scale-105 duration-300 ease-in-out"
+          type="button"
+          (click)="toggoleRegister()"
+        >
+          Register
+        </button>
+      </div>
+    </form>
+
+    <!-- Register Form -->
+
+    <form
+      class="bg-gray-900 opacity-75 w-full shadow-lg rounded-lg px-8 pt-6 pb-8 mb-4"
+      #loginForm="ngForm"
+      *ngIf="registerBool"
+      (ngSubmit)="register()"
+      autocomplete="off"
+    >
+      <div class="mb-4 flex flex-col gap-4">
+        <label
+          class="block text-blue-300 py-2 font-bold mb-2"
+          for="emailaddress"
+        >
+          Register now!
+        </label>
+        <input
+          class="shadow appearance-none border rounded w-full p-3 text-primary leading-tight focus:ring transform transition hover:scale-105 duration-300 ease-in-out"
+          [(ngModel)]="model.username"
+          name="username"
+          type="text"
+          placeholder="User Name"
+        />
+        <input
+          class="shadow appearance-none border rounded w-full p-3 text-black leading-tight focus:ring transform transition hover:scale-105 duration-300 ease-in-out"
+          [(ngModel)]="model.password"
+          name="password"
+          type="password"
+          placeholder="Password"
+        />
+      </div>
+
+      <div class="flex items-center justify-between pt-4">
+        <button
+          class="bg-gradient-to-r from-purple-800 to-green-500 hover:from-pink-500 hover:to-green-500 text-white font-bold py-2 px-4 rounded focus:ring transform transition hover:scale-105 duration-300 ease-in-out"
+          type="submit"
+        >
+          Register
+        </button>
+        <button
+          class="bg-gradient-to-r from-purple-800 to-green-500 hover:from-pink-500 hover:to-green-500 text-white font-bold py-2 px-4 rounded focus:ring transform transition hover:scale-105 duration-300 ease-in-out"
+          type="button"
+          (click)="toggoleRegister()"
+        >
+          Sign In
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div
+  role="alert"
+  class="alert alert-error cursor-pointer"
+  *ngIf="registerError != ''"
+  (click)="clearErrorMsg()"
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    class="stroke-current shrink-0 h-6 w-6"
+    fill="none"
+    viewBox="0 0 24 24"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+    />
+  </svg>
+  <span>{{ registerError }}</span>
+</div>

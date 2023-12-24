@@ -20,6 +20,4 @@ public static class ApplicationServiceExtensions
         services.AddSwaggerGen();
         return services;
     }
-
-
 }
