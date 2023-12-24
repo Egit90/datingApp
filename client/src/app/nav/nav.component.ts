@@ -2,23 +2,23 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AccountService } from '../_services/account.service';
 import { CommonModule } from '@angular/common';
-import { Observable, of } from 'rxjs';
-import { User } from '../_models/user';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-nav',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, RouterLink, RouterLinkActive],
   templateUrl: './nav.component.html',
 })
 export class NavComponent {
   modle: any = {};
 
-  constructor(public accountService: AccountService) {}
+  constructor(public accountService: AccountService, private router: Router) {}
 
   ngOnInit(): void {}
 
   logout() {
     this.accountService.logout();
+    this.router.navigateByUrl('/');
   }
 }
