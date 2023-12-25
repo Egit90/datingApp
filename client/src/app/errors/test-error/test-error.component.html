@@ -1,0 +1,24 @@
+<div class="flex flex-col gap-4">
+  <button class="btn btn-primary" (click)="get500Error()">
+    Test 500 Error
+  </button>
+  <button class="btn btn-primary" (click)="get400Error()">
+    Test 400 Error
+  </button>
+  <button class="btn btn-primary" (click)="get401Error()">
+    Test 401 Error
+  </button>
+  <button class="btn btn-primary" (click)="get404Error()">
+    Test 404 Error
+  </button>
+  <button class="btn btn-primary" (click)="get400ValidationError()">
+    Test 400ValidationError
+  </button>
+  <div *ngIf="validatonErrors.length > 0">
+    <ul>
+      <li *ngFor="let erro of validatonErrors">
+        {{ erro }}
+      </li>
+    </ul>
+  </div>
+</div>
