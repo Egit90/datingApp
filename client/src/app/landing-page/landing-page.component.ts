@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-landing-page',
@@ -15,28 +16,24 @@ import { Router } from '@angular/router';
 export class LandingPageComponent {
   model: LoginModel = {} as LoginModel;
   registerBool: boolean = false;
-  registerError: string = '';
-  constructor(public AccountService: AccountService, private router: Router) {}
+  constructor(
+    public AccountService: AccountService,
+    private router: Router,
+    private toaster: ToastrService
+  ) {}
 
   login() {
     this.AccountService.login(this.model).subscribe({
       next: (_) => this.router.navigateByUrl('/members'),
-      error: (err) => console.log(err),
+      error: (err) => this.toaster.error(err.error),
     });
   }
 
   register() {
     this.AccountService.register(this.model).subscribe({
       next: (res) => console.log(res),
-      error: (err: HttpErrorResponse) => {
-        this.registerError = err.error;
-        console.log(err);
-      },
+      error: (err: HttpErrorResponse) => this.toaster.error(err.error),
     });
-  }
-
-  clearErrorMsg() {
-    this.registerError = '';
   }
 
   toggoleRegister() {
