@@ -1,1 +1,5 @@
-<p>member-list works!</p>
+<div class="flex flex-row flex-wrap gap-5">
+  <app-member-card *ngFor="let member of members" [member]="member">{{
+    member.knownAs
+  }}</app-member-card>
+</div>

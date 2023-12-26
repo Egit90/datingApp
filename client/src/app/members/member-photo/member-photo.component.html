@@ -1,0 +1,15 @@
+<div class="grid gap-4 m-5 p-5">
+  <div class="items-center mx-auto">
+    <img class="h-80 max-w-full rounded-lg" src="{{ currentImg }}" alt="" />
+  </div>
+  <div class="grid grid-cols-5 gap-4">
+    <div *ngFor="let img of srcList">
+      <img
+        class="h-auto max-w-full rounded-lg cursor-pointer"
+        (click)="setCurrectImg(img)"
+        src="{{ img }}"
+        alt=""
+      />
+    </div>
+  </div>
+</div>

@@ -1,0 +1,35 @@
+<div
+  *ngIf="member"
+  class="m-2 min-w-20 w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
+>
+  <div class="flex flex-col items-center pb-10">
+    <div class="h-2"></div>
+    <img
+      routerLink="/members/{{ member.username }}"
+      class="w-36 h-36 mb-3 rounded-full shadow-lg hover:scale-125 duration-300 ease-in-out cursor-pointer"
+      src="{{ member.photoUrl || './assets/user.png' }}"
+      alt="user image"
+    />
+    <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">
+      {{ member.knownAs }}
+    </h5>
+    <span class="text-sm text-gray-500 dark:text-gray-400">
+      {{ member.city }}
+    </span>
+    <div class="flex mt-4 md:mt-6">
+      <a
+        class="material-icons cursor-pointer inline-block text-blue-300 no-underline hover:text-pink-500 hover:text-underline text-center h-10 p-2 md:h-auto md:p-4 transform hover:scale-125 duration-300 ease-in-out"
+        >favorite</a
+      >
+      <a
+        routerLink="/members/{{ member.username }}"
+        class="material-icons cursor-pointer inline-block text-blue-300 no-underline hover:text-pink-500 hover:text-underline text-center h-10 p-2 md:h-auto md:p-4 transform hover:scale-125 duration-300 ease-in-out"
+        >person</a
+      >
+      <a
+        class="material-icons cursor-pointer inline-block text-blue-300 no-underline hover:text-pink-500 hover:text-underline text-center h-10 p-2 md:h-auto md:p-4 transform hover:scale-125 duration-300 ease-in-out"
+        >mail</a
+      >
+    </div>
+  </div>
+</div>

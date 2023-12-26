@@ -16,5 +16,5 @@ public class MemberDto
     public string Interests { get; set; } = null!;
     public string City { get; set; } = null!;
     public string Country { get; set; } = null!;
-    public List<PhotoDto> photos { get; set; }
+    public List<PhotoDto> photos { get; set; } = null!;
 }

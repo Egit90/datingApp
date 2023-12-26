@@ -3,18 +3,20 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, map } from 'rxjs';
 import { User } from '../_models/user';
 import { LoginModel } from '../_models/loginModel';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AccountService {
-  baseUrl = 'https://localhost:5001/api/';
+  baseUrl = environment.apiUrl;
   private currentUserSource = new BehaviorSubject<User | null>(null);
   currentUser$ = this.currentUserSource.asObservable();
 
   constructor(private http: HttpClient) {}
 
   login(modle: LoginModel) {
+    console.log('elie', environment.apiUrl);
     return this.http.post<User>(this.baseUrl + 'account/login', modle).pipe(
       map((response: User) => {
         const user = response;

@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { AccountService } from '../_services/account.service';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-nav',

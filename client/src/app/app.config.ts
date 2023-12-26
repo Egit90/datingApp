@@ -9,12 +9,13 @@ import {
 } from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideToastr } from 'ngx-toastr';
-import { ErrorInterceptor } from './_interceptor/error.interceptor';
+import { ErrorInterceptor } from './_interceptors/error.interceptor';
+import { jwtInterceptor } from './_interceptors/jwt.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
-    provideHttpClient(withInterceptors([ErrorInterceptor])),
+    provideHttpClient(withInterceptors([ErrorInterceptor, jwtInterceptor])),
     provideAnimations(),
     provideToastr(),
   ],
