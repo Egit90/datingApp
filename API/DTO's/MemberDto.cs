@@ -1,17 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
-using API.Extensions;
+﻿namespace API.DTOs;
 
-namespace API.Entities;
-
-public class AppUser
+public class MemberDto
 {
     public int Id { get; set; }
     public string Username { get; set; } = null!;
+    public string PhotoUrl { get; set; } = null!;
 
-    public byte[] PasswordHash { get; set; } = null!;
-    public byte[] PasswordSalt { get; set; } = null!;
-
-    public DateOnly DateOfBirth { get; set; }
+    public int Age { get; set; }
     public string KnownAs { get; set; } = null!;
     public DateTime Created { get; set; } = DateTime.UtcNow;
     public DateTime LastActive { get; set; } = DateTime.UtcNow;
@@ -21,12 +16,5 @@ public class AppUser
     public string Interests { get; set; } = null!;
     public string City { get; set; } = null!;
     public string Country { get; set; } = null!;
-    public List<Photo> photos { get; set; } = [];
-
-    // public int GetAge()
-    // {
-    //     return DateOfBirth.CalculateAge();
-    // }
-
-
+    public List<PhotoDto> photos { get; set; }
 }

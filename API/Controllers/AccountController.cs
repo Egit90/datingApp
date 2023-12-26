@@ -36,7 +36,7 @@ public class AccountController(DataContext context, ITokenService tokenService) 
 
         return new UserDto
         {
-            Tocken = _tokenService.CreateToken(user),
+            Token = _tokenService.CreateToken(user),
             Username = registerDto.Username
         };
     }
@@ -56,7 +56,7 @@ public class AccountController(DataContext context, ITokenService tokenService) 
         {
             return new UserDto
             {
-                Tocken = _tokenService.CreateToken(usr),
+                Token = _tokenService.CreateToken(usr),
                 Username = loginDto.Username
             };
         }
