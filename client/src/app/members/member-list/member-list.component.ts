@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { MembersService } from '../../_services/members.service';
 import { Member } from '../../_models/member';
 import { CommonModule } from '@angular/common';
 import { MemberCardComponent } from '../member-card/member-card.component';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-member-list',
@@ -11,17 +12,12 @@ import { MemberCardComponent } from '../member-card/member-card.component';
   templateUrl: './member-list.component.html',
 })
 export class MemberListComponent implements OnInit {
-  members: Member[] = [];
+  members$: Observable<Member[]> | undefined;
+  private memberService = inject(MembersService);
 
-  constructor(private memberService: MembersService) {}
+  constructor() {}
 
   ngOnInit(): void {
-    this.loadMembers();
-  }
-
-  loadMembers() {
-    this.memberService.getMembers().subscribe({
-      next: (members) => (this.members = members),
-    });
+    this.members$ = this.memberService.getMembers();
   }
 }

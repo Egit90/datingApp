@@ -11,11 +11,14 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideToastr } from 'ngx-toastr';
 import { ErrorInterceptor } from './_interceptors/error.interceptor';
 import { jwtInterceptor } from './_interceptors/jwt.interceptor';
+import { loadingInterceptor } from './_interceptors/loading.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
-    provideHttpClient(withInterceptors([ErrorInterceptor, jwtInterceptor])),
+    provideHttpClient(
+      withInterceptors([ErrorInterceptor, jwtInterceptor, loadingInterceptor])
+    ),
     provideAnimations(),
     provideToastr(),
   ],
