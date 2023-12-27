@@ -5,11 +5,12 @@ import { MembersService } from '../../_services/members.service';
 import { CommonModule } from '@angular/common';
 import { GalleryItem, GalleryModule, ImageItem } from 'ng-gallery';
 import { MemberPhotoComponent } from '../member-photo/member-photo.component';
+import { MemberMainCardComponent } from '../member-main-card/member-main-card.component';
 
 @Component({
   selector: 'app-member-detail',
   standalone: true,
-  imports: [CommonModule, MemberPhotoComponent],
+  imports: [CommonModule, MemberPhotoComponent, MemberMainCardComponent],
   templateUrl: './member-detail.component.html',
 })
 export class MemberDetailComponent implements OnInit {

@@ -2,43 +2,10 @@
   *ngIf="member"
   class="flex flex-col border rounded-lg shadow md:flex-row dark:border-gray-700 dark:bg-transparent text-gray-200"
 >
-  <div class="flex flex-col gap-2 min-w-80 p-2">
-    <img
-      class="object-cover w-72 rounded-t-lg md:rounded-none md:rounded-s-lg"
-      src="{{ member.photoUrl }}"
-      alt="{{ member.knownAs }}"
-    />
-    <h5
-      class="mb-2 text-lg font-bold tracking-tight text-gray-900 dark:text-white"
-    >
-      {{ member.knownAs }}
-    </h5>
-    <h5 class="text-xl font-medium tracking-tight dark:text-purple-400">
-      Location:
-      <span class="font-normal text-lg text-white"
-        >{{ member.country }}, {{ member.city }}</span
-      >
-    </h5>
-    <h5 class="text-xl font-medium tracking-tight dark:text-purple-400">
-      Age: <span class="font-normal text-white">{{ member.age }}</span>
-    </h5>
-    <h5 class="text-xl font-medium tracking-tight dark:text-purple-400">
-      Last Active:
-      <span class="font-normal text-white">{{
-        member.lastActive.toLocaleString("en-US")
-      }}</span>
-    </h5>
-    <h5 class="text-xl font-medium tracking-tight dark:text-purple-400">
-      Member Since:
-      <span class="font-normal text-white">{{
-        member.created.toLocaleString("en-US")
-      }}</span>
-    </h5>
-  </div>
-
+  <app-member-main-card [member]="member"></app-member-main-card>
   <!-- tabs -->
-  <div class="flex flex-col w-full justify-between p-4 leading-normal">
-    <div class="text-left mt-4">
+  <div class="flex flex-col w-full justify-between leading-normal">
+    <div class="text-left">
       <div role="tablist" class="tabs m-4">
         <a
           role="tab"

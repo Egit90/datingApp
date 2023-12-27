@@ -1,0 +1,80 @@
+<div
+  *ngIf="member"
+  class="flex flex-col border rounded-lg shadow md:flex-row dark:border-gray-700 dark:bg-transparent text-gray-200"
+>
+  <app-member-main-card [member]="member"></app-member-main-card>
+  <!-- tabs -->
+  <div class="flex flex-col w-full justify-between p-4 leading-normal">
+    <div class="text-left mt-4">
+      <div role="tablist" class="tabs m-4">
+        <a
+          (click)="toogleView()"
+          role="tab"
+          class="tab hover:text-pink-400 hover:scale-125 transition-transform duration-300"
+          >Edit Profile</a
+        >
+        <a
+          (click)="toogleView()"
+          role="tab"
+          class="tab hover:text-pink-400 hover:scale-125 transition-transform duration-300"
+          >Edit Photos</a
+        >
+      </div>
+
+      @if (editInfo) {
+      <form #editForm="ngForm" id="editForm" (ngSubmit)="updateMember()">
+        <h3 class="font-bold">Description</h3>
+        <textarea
+          class="textarea textarea-info w-full"
+          placeholder="Description"
+          [(ngModel)]="member.introduction"
+          name="introduction"
+          rows="6"
+        ></textarea>
+        <h3 class="font-bold">Looking For</h3>
+        <textarea
+          class="textarea textarea-info w-full"
+          placeholder="Description"
+          [(ngModel)]="member.lookingFor"
+          name="lookingFor"
+          rows="6"
+        ></textarea>
+        <h3 class="font-bold">Intrests</h3>
+        <textarea
+          class="textarea textarea-info w-full"
+          placeholder="Description"
+          [(ngModel)]="member.interests"
+          name="interests"
+          rows="6"
+        ></textarea>
+        <h3 class="font-bold">Location</h3>
+        <div class="flex flex-row align-middle">
+          <label for="city"> City: </label>
+          <input
+            type="text"
+            [(ngModel)]="member.city"
+            name="city"
+            class="mx-2"
+          />
+          <label for="country">Coutntry: </label>
+          <input
+            type="text"
+            [(ngModel)]="member.country"
+            name="country"
+            class="mx-2"
+          />
+        </div>
+        <button
+          [disabled]="!editForm.dirty"
+          type="submit"
+          class="btn btn-primary"
+        >
+          Save
+        </button>
+      </form>
+      } @else {
+      <div>Edit Photo</div>
+      }
+    </div>
+  </div>
+</div>
