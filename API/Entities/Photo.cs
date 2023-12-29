@@ -8,7 +8,7 @@ public class Photo
     public string? Url { get; set; }
 
     public bool IsMain { get; set; }
-    public string? PublicId { get; set; }
+    public string PublicId { get; set; } = null!;
 
     public int AppUserId { get; set; } // Required foreign key property
     public AppUser AppUser { get; set; } = null!; // Required reference navigation to principall

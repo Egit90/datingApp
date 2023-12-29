@@ -10,7 +10,7 @@ public class AutoMaapperProfiles : Profile
     public AutoMaapperProfiles()
     {
         CreateMap<AppUser, MemberDto>()
-        .ForMember(dest => dest.PhotoUrl, opt => opt.MapFrom(src => src.photos.FirstOrDefault(x => x.IsMain).Url))
+        .ForMember(dest => dest.PhotoUrl, opt => opt.MapFrom(src => src.Photos.FirstOrDefault(x => x.IsMain).Url))
         .ForMember(des => des.Age, opt => opt.MapFrom(src => src.DateOfBirth.CalculateAge()))
         ;
         CreateMap<Photo, PhotoDto>();

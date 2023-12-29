@@ -29,7 +29,7 @@ public class UserRepository(DataContext context, IMapper mapper) : IUserReposito
 
     public async Task<IEnumerable<AppUser>> GetUserAsync()
     {
-        return await _context.Users.Include(e => e.photos).ToListAsync();
+        return await _context.Users.Include(e => e.Photos).ToListAsync();
     }
 
     public async Task<AppUser?> GetUserByIdAsync(int id)
@@ -40,7 +40,7 @@ public class UserRepository(DataContext context, IMapper mapper) : IUserReposito
     public async Task<AppUser?> GetUserByUsernameAsync(string name)
     {
         return await _context.Users
-        .Include(p => p.photos)
+        .Include(p => p.Photos)
         .SingleOrDefaultAsync(x => x.Username == name);
     }
 

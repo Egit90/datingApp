@@ -1,49 +1,26 @@
-<div
-  *ngIf="member"
-  class="flex flex-col border rounded-lg shadow md:flex-row dark:border-gray-700 dark:bg-transparent text-gray-200"
->
-  <app-member-main-card [member]="member"></app-member-main-card>
-  <!-- tabs -->
-  <div class="flex flex-col w-full justify-between leading-normal">
-    <div class="text-left">
-      <div role="tablist" class="tabs m-4">
-        <a
-          role="tab"
-          class="tab hover:text-pink-400 hover:scale-125 transition-transform duration-300"
-          (click)="toogleTab(1)"
-          >About {{ member.knownAs }}</a
-        >
-        <a
-          role="tab"
-          class="tab hover:text-pink-400 hover:scale-125 transition-transform duration-300"
-          (click)="toogleTab(2)"
-          >Intrests</a
-        >
-        <a
-          role="tab"
-          class="tab hover:text-pink-400 hover:scale-125 transition-transform duration-300"
-          (click)="toogleTab(3)"
-          >Photos</a
-        >
-        <a
-          role="tab"
-          class="tab hover:text-pink-400 hover:scale-125 transition-transform duration-300"
-          (click)="toogleTab(4)"
-          >Messages</a
-        >
-      </div>
-      <div *ngIf="intorBool" class="flex flex-col items-start gap-3">
-        <span class="font-bold text-2xl">Description</span>
-        <p>{{ member.introduction }}</p>
-        <hr />
-        <span class="font-bold text-2xl">Looking For</span>
-        <p>{{ member.lookingFor }}</p>
-      </div>
-      <p *ngIf="intrestBool">{{ member.interests }}</p>
-      <app-member-photo *ngIf="photoBool" [srcList]="images"
-        >PhotoTab</app-member-photo
-      >
-      <p *ngIf="messagesBool">Mesage Tab</p>
-    </div>
+<div *ngIf="member" class="max-w-4xl flex items-center h-auto flex-wrap mx-auto">
+  <!--Main Col-->
+  <div id="profile" class="w-full rounded-lg shadow-2xl bg-white opacity-75 mx-6 lg:mx-0">
+    <!-- tabs -->
+    <ul class="flex flex-wrap text-sm font-medium text-center border-b border-green-500">
+      <li class="me-2" (click)="toggleTab(1)">
+        <a class="cursor-pointer inline-block text-violet-300 hover:text-pink-500 hover:text-underline p-4 hover:scale-125 duration-300 ease-in-out">About</a>
+      </li>
+      <li class="me-2" (click)="toggleTab(2)">
+        <a class="cursor-pointer inline-block text-violet-300 hover:text-pink-500 hover:text-underline p-4 hover:scale-125 duration-300 ease-in-out">Intrests</a>
+      </li>
+      <li class="me-2" (click)="toggleTab(3)">
+        <a class="cursor-pointer inline-block text-violet-300 hover:text-pink-500 hover:text-underline p-4 hover:scale-125 duration-300 ease-in-out">Photos</a>
+      </li>
+      <li class="me-2" (click)="toggleTab(4)">
+        <a class="cursor-pointer inline-block text-violet-300 hover:text-pink-500 hover:text-underline p-4 hover:scale-125 duration-300 ease-in-out">Messages</a>
+      </li>
+    </ul>
+    <!-- main photo -->
+    <div *ngIf="!photoBool" class="p-4 md:p-12 mt-3 text-center block rounded-full shadow-xl mx-auto h-48 w-48 bg-cover bg-center" style="background-image: url('{{ member.photoUrl }}')"></div>
+    <!--about  -->
+    <app-about *ngIf="aboutBool" [member]="member"></app-about>
+    <app-member-photo *ngIf="photoBool" [srcList]="images"> </app-member-photo>
+    <app-interests *ngIf="intrestBool" [member]="member"></app-interests>
   </div>
 </div>

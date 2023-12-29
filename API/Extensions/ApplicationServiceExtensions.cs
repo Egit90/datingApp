@@ -20,6 +20,10 @@ public static class ApplicationServiceExtensions
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 
+        services.Configure<CloudinarySettings>(config.GetSection("CloudinarySetting"));
+
+        services.AddScoped<IPhotoService, PhotoService>();
+
         services.AddControllers();
         services.AddSwaggerGen();
         return services;

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import { Member } from '../../_models/member';
 import { ActivatedRoute } from '@angular/router';
 import { MembersService } from '../../_services/members.service';
@@ -6,25 +6,27 @@ import { CommonModule } from '@angular/common';
 import { GalleryItem, GalleryModule, ImageItem } from 'ng-gallery';
 import { MemberPhotoComponent } from '../member-photo/member-photo.component';
 import { MemberMainCardComponent } from '../member-main-card/member-main-card.component';
+import { AboutComponent } from './about/about.component';
+import { InterestsComponent } from './interests/interests.component';
 
 @Component({
   selector: 'app-member-detail',
   standalone: true,
-  imports: [CommonModule, MemberPhotoComponent, MemberMainCardComponent],
+  imports: [CommonModule, MemberPhotoComponent, MemberMainCardComponent, AboutComponent, InterestsComponent],
   templateUrl: './member-detail.component.html',
 })
 export class MemberDetailComponent implements OnInit {
+  private memberService = inject(MembersService);
+  private router: ActivatedRoute = inject(ActivatedRoute);
   member: Member | undefined;
-  intorBool: boolean = true;
+
+  aboutBool: boolean = true;
   intrestBool: boolean = false;
   photoBool: boolean = false;
   messagesBool: boolean = false;
   images: string[] = [];
 
-  constructor(
-    private memberService: MembersService,
-    private router: ActivatedRoute
-  ) {}
+  constructor() {}
 
   ngOnInit(): void {
     this.loadMember();
@@ -45,39 +47,14 @@ export class MemberDetailComponent implements OnInit {
     if (!this.member) return;
     for (const photo of this.member?.photos) {
       this.images.push(photo.url);
-      this.images.push(
-        'https://flowbite.s3.amazonaws.com/docs/gallery/featured/image.jpg'
-      );
     }
   }
 
-  toogleTab(tabNumber: number) {
-    switch (tabNumber) {
-      case 1:
-        this.intorBool = true;
-        this.intrestBool = false;
-        this.photoBool = false;
-        this.messagesBool = false;
-        break;
-      case 2:
-        this.intrestBool = true;
-        this.intorBool = false;
-        this.photoBool = false;
-        this.messagesBool = false;
-
-        break;
-      case 3:
-        this.photoBool = true;
-        this.intorBool = false;
-        this.intrestBool = false;
-        this.messagesBool = false;
-        break;
-      case 4:
-        this.messagesBool = true;
-        this.photoBool = false;
-        this.intorBool = false;
-        this.intrestBool = false;
-        break;
+  toggleTab(tabNumber: number) {
+    const tabBools = [false, false, false, false];
+    if (tabNumber >= 1 && tabNumber <= tabBools.length) {
+      tabBools[tabNumber - 1] = true;
+      [this.aboutBool, this.intrestBool, this.photoBool, this.messagesBool] = tabBools;
     }
   }
 }

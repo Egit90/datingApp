@@ -5,7 +5,7 @@
   <div class="grid grid-cols-5 gap-4">
     <div *ngFor="let img of srcList">
       <img
-        class="h-auto max-w-full rounded-lg cursor-pointer"
+        class="max-w-full rounded-lg cursor-pointer w-full h-full object-fill"
         (click)="setCurrectImg(img)"
         src="{{ img }}"
         alt=""

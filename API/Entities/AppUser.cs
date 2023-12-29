@@ -21,7 +21,7 @@ public class AppUser
     public string Interests { get; set; } = null!;
     public string City { get; set; } = null!;
     public string Country { get; set; } = null!;
-    public List<Photo> photos { get; set; } = [];
+    public List<Photo> Photos { get; set; } = [];
 
     // public int GetAge()
     // {

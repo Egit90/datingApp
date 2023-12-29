@@ -16,13 +16,11 @@ export class AccountService {
   constructor(private http: HttpClient) {}
 
   login(modle: LoginModel) {
-    console.log('elie', environment.apiUrl);
     return this.http.post<User>(this.baseUrl + 'account/login', modle).pipe(
       map((response: User) => {
         const user = response;
         if (user) {
-          localStorage.setItem('user', JSON.stringify(user));
-          this.currentUserSource.next(user);
+          this.setCurrentUser(user);
         }
       })
     );
@@ -37,14 +35,14 @@ export class AccountService {
     return this.http.post<User>(this.baseUrl + 'account/register', model).pipe(
       map((res: User) => {
         if (res) {
-          localStorage.setItem('user', JSON.stringify(res));
-          this.currentUserSource.next(res);
+          this.setCurrentUser(res);
         }
       })
     );
   }
 
   setCurrentUser(user: User) {
+    localStorage.setItem('user', JSON.stringify(user));
     this.currentUserSource.next(user);
   }
 }

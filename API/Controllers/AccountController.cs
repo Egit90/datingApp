@@ -37,7 +37,7 @@ public class AccountController(DataContext context, ITokenService tokenService) 
         return new UserDto
         {
             Token = _tokenService.CreateToken(user),
-            Username = registerDto.Username
+            Username = registerDto.Username,
         };
     }
 
@@ -45,7 +45,7 @@ public class AccountController(DataContext context, ITokenService tokenService) 
     [HttpPost("login")]
     public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
     {
-        var usr = await _context.Users.FirstOrDefaultAsync(e => e.Username == loginDto.Username);
+        var usr = await _context.Users.Include(p => p.Photos).FirstOrDefaultAsync(e => e.Username == loginDto.Username);
 
         if (usr == null) return Unauthorized();
 
@@ -57,7 +57,8 @@ public class AccountController(DataContext context, ITokenService tokenService) 
             return new UserDto
             {
                 Token = _tokenService.CreateToken(usr),
-                Username = loginDto.Username
+                Username = loginDto.Username,
+                PhotoUrl = usr.Photos.FirstOrDefault(x => x.IsMain)?.Url
             };
         }
 
