@@ -1,0 +1,15 @@
+<div class="flex flex-row justify-between items-center">
+  {{ label }}
+  <div class="relative w-1/2">
+    <input
+      datepicker
+      [formControl]="control"
+      type="date"
+      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+      placeholder="Date Of Birth"
+    />
+  </div>
+</div>
+@if(control.hasError('notOldEnough')){
+<div class="text-red-400">You must be at least 18 years ago.</div>
+}
