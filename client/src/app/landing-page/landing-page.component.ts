@@ -18,11 +18,13 @@ export class LandingPageComponent implements OnInit {
   public AccountService: AccountService = inject(AccountService);
   private router: Router = inject(Router);
   private fb = inject(FormBuilder);
+  private toaster = inject(ToastrService);
 
   model: LoginModel = {} as LoginModel;
   registerBool: boolean = false;
   registerForm: FormGroup = new FormGroup({});
   registerErrorMessage = '';
+  validationErrors: string[] | undefined;
 
   ngOnInit(): void {
     this.initializeForm();
@@ -57,20 +59,18 @@ export class LandingPageComponent implements OnInit {
   }
 
   register() {
-    console.log(this.registerForm);
-    // this.AccountService.register(this.model).subscribe({
-    //   next: (res) => console.log(res),
-    //   error: (err: string[]) =>
-    //     err.forEach((element) => {
-    //       this.toaster.error(element);
-    //     }),
-    // });
-  }
+    const dob = this.getDateOnly(this.registerForm.controls['dateOfBirth']?.value);
 
-  isInvalid(controlName: string): boolean | undefined {
-    const control = this.registerForm.get(controlName);
-    if (!control) return;
-    return control.invalid && (control.dirty || control.touched);
+    const values = { ...this.registerForm.value, dateOfBirth: dob };
+
+    this.AccountService.register(values).subscribe({
+      next: (res) => {
+        this.router.navigateByUrl('/members');
+      },
+      error: (err) => {
+        this.validationErrors = err;
+      },
+    });
   }
 
   toggoleRegister() {
@@ -88,5 +88,12 @@ export class LandingPageComponent implements OnInit {
       }
       return null;
     };
+  }
+
+  private getDateOnly(dob: string | undefined) {
+    if (!dob) return;
+    let thedob = new Date(dob);
+
+    return new Date(thedob.setMinutes(thedob.getMinutes() - thedob.getTimezoneOffset())).toISOString().slice(0, 10);
   }
 }

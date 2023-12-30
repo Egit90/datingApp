@@ -7,29 +7,33 @@ using API.DTOs;
 using API.Entities;
 using API.Interface;
 using API.Services;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace API;
 //api/account
-public class AccountController(DataContext context, ITokenService tokenService) : BaseApiController
+public class AccountController(DataContext context, ITokenService tokenService, IMapper mapper) : BaseApiController
 {
     private readonly DataContext _context = context;
     private readonly ITokenService _tokenService = tokenService;
+    private readonly IMapper _mapper = mapper;
 
     [HttpPost("register")] // /api/account/register
     public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
     {
         if (await UserExists(registerDto.Username)) return BadRequest("Username is taken");
 
-        using var hmac = new HMACSHA512();
-        var user = new AppUser
-        {
-            Username = registerDto.Username.ToLower(),
-            PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
-            PasswordSalt = hmac.Key
 
-        };
+        var user = _mapper.Map<AppUser>(registerDto);
+
+        if (user == null) return BadRequest("Something went wrong");
+
+        using var hmac = new HMACSHA512();
+        user.Username = registerDto.Username.ToLower();
+        user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password));
+        user.PasswordSalt = hmac.Key;
+
 
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
@@ -38,6 +42,7 @@ public class AccountController(DataContext context, ITokenService tokenService) 
         {
             Token = _tokenService.CreateToken(user),
             Username = registerDto.Username,
+            knownAs = user.KnownAs
         };
     }
 
@@ -58,7 +63,8 @@ public class AccountController(DataContext context, ITokenService tokenService) 
             {
                 Token = _tokenService.CreateToken(usr),
                 Username = loginDto.Username,
-                PhotoUrl = usr.Photos.FirstOrDefault(x => x.IsMain)?.Url
+                PhotoUrl = usr.Photos.FirstOrDefault(x => x.IsMain)?.Url,
+                knownAs = usr.KnownAs
             };
         }
 
@@ -69,7 +75,7 @@ public class AccountController(DataContext context, ITokenService tokenService) 
 
     private async Task<bool> UserExists(string user)
     {
-        return await _context.Users.AnyAsync(e => e.Username == user.ToLower());
+        return await _context.Users.AnyAsync(e => e.Username.ToLower() == user.ToLower());
     }
 
 

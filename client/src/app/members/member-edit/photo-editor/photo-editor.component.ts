@@ -54,6 +54,10 @@ export class PhotoEditorComponent implements OnInit {
             this.message = 'Success!';
             const imageUrl = event.body.url;
             this.member?.photos.push(event.body);
+            if (event.body.isMain && this.user && this.member) {
+              this.user.photoUrl = imageUrl;
+              this.member.photoUrl = imageUrl;
+            }
           }
         },
         error: (err: any) => {

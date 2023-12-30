@@ -6,5 +6,5 @@ public class UserDto
     public required string Token { get; set; }
 
     public string PhotoUrl { get; set; } = null!;
-
+    public string knownAs { get; set; } = null!;
 }

@@ -94,7 +94,7 @@ public class UsersController(IUserRepository userRepository, IMapper mapper, IPh
         var photo = user.Photos.FirstOrDefault(x => x.Id == photoId);
 
         if (photo == null) return NotFound();
-        if (photo.IsMain) return BadRequest("this is already your mail photo.");
+        if (photo.IsMain) return BadRequest("this is already your main photo.");
 
         var currentMain = user.Photos.FirstOrDefault(x => x.IsMain);
         if (currentMain != null) currentMain.IsMain = false;
