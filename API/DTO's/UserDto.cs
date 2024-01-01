@@ -1,4 +1,5 @@
-﻿namespace API;
+﻿
+namespace API;
 
 public class UserDto
 {
@@ -7,4 +8,6 @@ public class UserDto
 
     public string PhotoUrl { get; set; } = null!;
     public string knownAs { get; set; } = null!;
+    public string Gender { get; set; }
+
 }

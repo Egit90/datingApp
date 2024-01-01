@@ -27,7 +27,8 @@
     <div class="flex w-1/2 justify-end content-center">
       <details class="dropdown" *ngIf="accountService.currentUser$ | async">
         <summary class="m-1 btn">
-          <span class="material-icons"> menu </span>
+          <img *ngIf="user" src="{{ user.photoUrl }}" class="h-full rounded-full" />
+          <!-- <span class="material-icons"> menu </span> -->
         </summary>
         <ul class="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
           <li><a routerLink="/member/edit">Update Profile</a></li>

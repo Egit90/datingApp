@@ -3,39 +3,58 @@ import { MembersService } from '../../_services/members.service';
 import { Member } from '../../_models/member';
 import { CommonModule } from '@angular/common';
 import { MemberCardComponent } from '../member-card/member-card.component';
-import { Observable } from 'rxjs';
+import { take } from 'rxjs';
 import { Pagination } from '../../_models/pagination';
+import { UserParams } from '../../_models/userParams';
+import { User } from '../../_models/user';
+import { AccountService } from '../../_services/account.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-member-list',
   standalone: true,
-  imports: [CommonModule, MemberCardComponent],
+  imports: [FormsModule, CommonModule, MemberCardComponent],
   templateUrl: './member-list.component.html',
 })
 export class MemberListComponent implements OnInit {
-  // members$: Observable<Member[]> | undefined;
-  members: Member[] = [];
   private memberService = inject(MembersService);
-  pagination: Pagination | undefined;
-  pageNumber = 1;
-  pageSize = 5;
+  private accountService = inject(AccountService);
+  public pagination: Pagination | undefined;
+  public userParams: UserParams | undefined;
+  public members: Member[] = [];
+  public genderList = [
+    { value: 'male', display: 'Male' },
+    { value: 'female', display: 'Female' },
+  ];
 
-  constructor() {}
+  public genderFilter: string = '';
+
+  constructor() {
+    this.userParams = this.memberService.getUserParams();
+  }
 
   ngOnInit(): void {
-    // this.members$ = this.memberService.getMembers();
     this.loadMembers();
   }
 
-  loadMembers() {
-    this.memberService.getMembers(this.pageNumber, this.pageSize).subscribe({
-      next: (Response) => {
-        if (Response.result && Response.pagination) {
-          this.members = Response.result;
-          this.pagination = Response.pagination;
-        }
-      },
-    });
+  loadMembers(orderBy?: string) {
+    if (this.userParams) {
+      if (orderBy) this.userParams.orderBy = orderBy;
+      this.memberService.setUserParams(this.userParams);
+      this.memberService.getMembers(this.userParams).subscribe({
+        next: (Response) => {
+          if (Response.result && Response.pagination) {
+            this.members = Response.result;
+            this.pagination = Response.pagination;
+          }
+        },
+      });
+    }
+  }
+
+  resetFilters() {
+    this.userParams = this.memberService.resetUserParams();
+    this.loadMembers();
   }
 
   range(start: number, end: number): number[] {
@@ -43,8 +62,9 @@ export class MemberListComponent implements OnInit {
   }
 
   pageChange(pageNumber: number) {
-    if (pageNumber === this.pageNumber) return;
-    this.pageNumber = pageNumber;
+    if (!this.userParams || pageNumber === this.userParams.pageNumber) return;
+    this.userParams.pageNumber = pageNumber;
+    this.memberService.setUserParams(this.userParams);
     this.loadMembers();
   }
 }
