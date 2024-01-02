@@ -1,6 +1,7 @@
 ﻿using API.Data;
 using API.Helpers;
 using API.Interface;
+using API.interfaces;
 using API.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,6 +22,7 @@ public static class ApplicationServiceExtensions
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
         services.AddScoped<LogUserActivity>();
+        services.AddScoped<ILikesRepository, LikesRepository>();
 
 
         services.Configure<CloudinarySettings>(config.GetSection("CloudinarySetting"));

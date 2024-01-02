@@ -3,10 +3,8 @@ import { MembersService } from '../../_services/members.service';
 import { Member } from '../../_models/member';
 import { CommonModule } from '@angular/common';
 import { MemberCardComponent } from '../member-card/member-card.component';
-import { take } from 'rxjs';
 import { Pagination } from '../../_models/pagination';
 import { UserParams } from '../../_models/userParams';
-import { User } from '../../_models/user';
 import { AccountService } from '../../_services/account.service';
 import { FormsModule } from '@angular/forms';
 

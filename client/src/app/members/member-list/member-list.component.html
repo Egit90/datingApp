@@ -1,7 +1,7 @@
 <div class="flex flex-col gap-5 items-center">
   <ng-container *ngIf="userParams" class="w-full">
     <form #form="ngForm" (ngSubmit)="loadMembers()" class="w-full">
-      <div class="w-full flex flex-row justify-center gap-5">
+      <div class="w-full flex flex-row flex-wrap justify-center gap-5">
         <div class="join">
           <select name="gender" [(ngModel)]="userParams.gender" class="select select-bordered w-full max-w-xs join-item">
             <option disabled selected>Gender</option>

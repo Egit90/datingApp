@@ -25,7 +25,7 @@ public class UsersController(IUserRepository userRepository, IMapper mapper, IPh
     public async Task<ActionResult<PagedList<MemberDto>>> GetUsers([FromQuery] UserParams userParams)
     {
         var user = User.GetUserName();
-        var currentUser = await _userRepository.GetUserByUsernameAsync(user);
+        var currentUser = await _userRepository.GetUserByUsernameAsync(user!);
 
         userParams.CurrentUserName = currentUser!.Username;
 

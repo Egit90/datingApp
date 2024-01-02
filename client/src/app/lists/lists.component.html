@@ -1,1 +1,30 @@
-<p>lists works!</p>
+<div class="join flex justify-center items-center">
+  <button
+    class="join-item btn btn-accent disabled:btn-ghost"
+    [disabled]="predicate === 'liked'"
+    [class.underline]="predicate === 'liked'"
+    (click)="toggolePredicate()"
+  >
+    Members I Liked
+  </button>
+  <button
+    class="join-item btn btn-accent disabled:btn-ghost"
+    [disabled]="predicate === 'likedBy'"
+    [class.underline]="predicate === 'likedBy'"
+    (click)="toggolePredicate()"
+  >
+    Members who Like me
+  </button>
+</div>
+
+<div class="flex flex-row flex-wrap gap-5 items-center justify-center p-2">
+  <ng-container *ngFor="let member of members">
+    <app-member-card [member]="member"></app-member-card>
+  </ng-container>
+</div>
+
+<div *ngIf="pagination" class="join mx-auto">
+  <button *ngFor="let i of range(1, pagination.totalPages)" class="join-item btn" [class.btn-active]="this.pageNumber === i" (click)="pageChange(i)">
+    {{ i }}
+  </button>
+</div>
