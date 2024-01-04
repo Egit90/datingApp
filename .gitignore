@@ -487,5 +487,7 @@ $RECYCLE.BIN/
 /API/appsettings.json
 /API/appsettings.Development.json
 /API/appdb.db
+/API/appdb.db-shm
+/API/appdb.db-wal
 
 /ssl

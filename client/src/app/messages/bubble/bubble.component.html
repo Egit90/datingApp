@@ -1,0 +1,13 @@
+<div class="chat" [class.chat-start]="position === 'start'" [class.chat-end]="position === 'end'">
+  <div class="chat-image avatar">
+    <div class="w-10 rounded-full">
+      <img alt="profile Pic" src="{{ picUrl }}" />
+    </div>
+  </div>
+  <div class="chat-header">
+    {{ sender }}
+    <time class="text-xs opacity-50">{{ sentTime }}</time>
+  </div>
+  <div class="chat-bubble">{{ content }}</div>
+  <div class="chat-footer opacity-50">{{ status }}</div>
+</div>
