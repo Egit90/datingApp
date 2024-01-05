@@ -57,6 +57,18 @@ public class MessagesController(IUserRepository userRepository, IMessageReposito
 
     }
 
+    [HttpGet("summary")]
+    public async Task<ActionResult<PagedList<MessagesSummary>>> GetMessagesSummary([FromQuery] MessagesSummaryParams paginationParams)
+    {
+        paginationParams.UserId = User.GetUserID();
+
+        var res = await _messageRepository.GetUserMessageSummary(paginationParams);
+
+        Response.AddPaginationHeader(new PaginationHeader(res.CurrentPage, res.PageSize, res.TotalCount, res.TotalPages));
+
+        return res;
+    }
+
     [HttpGet("thread/{username}")]
     public async Task<ActionResult<IEnumerable<MessageDto>>> GetMessageThread(string username)
     {

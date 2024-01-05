@@ -20,7 +20,15 @@ public class AutoMaapperProfiles : Profile
         CreateMap<RegisterDto, AppUser>();
 
         CreateMap<Message, MessageDto>()
-        .ForMember(dest => dest.SenderPhotoUrl, opt => opt.MapFrom(src => src.Sender.Photos.FirstOrDefault(x => x.IsMain).IsMain))
-        .ForMember(dest => dest.RecipientPhotoUrl, opt => opt.MapFrom(src => src.Recipient.Photos.FirstOrDefault(x => x.IsMain).IsMain));
+        .ForMember(dest => dest.SenderPhotoUrl, opt => opt.MapFrom(src => src.Sender.Photos.FirstOrDefault(x => x.IsMain).Url))
+        .ForMember(dest => dest.RecipientPhotoUrl, opt => opt.MapFrom(src => src.Recipient.Photos.FirstOrDefault(x => x.IsMain).Url));
+
+
+        CreateMap<AppUser, MessagesSummary>()
+        .ForMember(dest => dest.MemberId, opt => opt.MapFrom(src => src.Id))
+        .ForMember(dest => dest.MemberName, opt => opt.MapFrom(src => src.KnownAs))
+        .ForMember(dest => dest.MemberPhotoUrl, opt => opt.MapFrom(src => src.Photos.FirstOrDefault(x => x.IsMain).Url));
+
+
     }
 }

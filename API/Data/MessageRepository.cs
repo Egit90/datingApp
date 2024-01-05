@@ -72,7 +72,25 @@ public class MessageRepository(DataContext dataContext, IMapper mapper) : IMessa
         return PagedList<MessageDto>.CreateAsync(messages, messageParams.PageNumber, messageParams.PageSize);
     }
 
-    public Task<PagedList<>>
+    public Task<PagedList<MessagesSummary>> GetUserMessageSummary(MessagesSummaryParams paginationParams)
+    {
+        var query = _context.Messages
+        .OrderByDescending(x => x.MessageSent).AsQueryable();
+
+        var q1 = query.Where(x => x.RecipientId == paginationParams.UserId).Select(x => x.SenderId).Distinct();
+        var q2 = query.Where(x => x.SenderId == paginationParams.UserId).Select(x => x.RecipientId).Distinct();
+
+        var combinedQuery = q1.Union(q2).ToList();
+
+        var usersInCombinedQuery = _context.Users
+            .Include(x => x.Photos)
+            .Where(user => combinedQuery.Contains(user.Id))
+            .Distinct();
+
+        var res = usersInCombinedQuery.ProjectTo<MessagesSummary>(_mapper.ConfigurationProvider);
+
+        return PagedList<MessagesSummary>.CreateAsync(res, paginationParams.PageNumber, paginationParams.PageSize);
+    }
 
     public async Task<bool> SaveAllAsync()
     {

@@ -1,3 +1,16 @@
-<div class="join">
-  <button class="btn btn-primary join-item"></button>
+<div class="flex flex-row justify-center gap-2 flex-wrap">
+  <div
+    *ngFor="let user of messagesUsers"
+    class="max-w-sm p-5 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 mb-4"
+  >
+    <div class="flex flex-col items-center pb-10 cursor-pointer" (click)="goToMessage(user.memberName)">
+      <img class="w-24 h-24 mb-3 rounded-full shadow-lg" [src]="user.memberPhotoUrl" alt="user Image" />
+      <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">{{ user.memberName }}</h5>
+    </div>
+  </div>
+</div>
+<div *ngIf="pagination" class="join mx-auto">
+  <button *ngFor="let i of range(1, pagination.totalPages)" class="join-item btn" [class.btn-active]="this.pageNumber === i" (click)="pageChange(i)">
+    {{ i }}
+  </button>
 </div>

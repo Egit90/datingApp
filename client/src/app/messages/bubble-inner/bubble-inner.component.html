@@ -1,0 +1,18 @@
+<div
+  *ngIf="msg"
+  class="chat"
+  [class.chat-start]="!(msg.senderUserName === (this.accountService.currentUser$ | async)?.username)"
+  [class.chat-end]="msg.senderUserName === (this.accountService.currentUser$ | async)?.username"
+>
+  <div class="chat-image avatar">
+    <div class="w-10 rounded-full">
+      <img alt="profile Pic" src="{{ msg.senderPhotoUrl }}" />
+    </div>
+  </div>
+  <div class="chat-header">
+    {{ msg.senderUserName }}
+    <time class="text-xs opacity-50">{{ msg.messageSent | intlRelativeTime }}</time>
+  </div>
+  <div class="chat-bubble">{{ msg.content }}</div>
+  <div class="chat-footer opacity-50">?</div>
+</div>
