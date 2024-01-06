@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnInit, inject } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, Input, OnInit, ViewChild, inject } from '@angular/core';
 import { MembersService } from '../../_services/members.service';
 import { Message } from '../../_models/messages';
 import { MessageService } from '../../_services/message.service';
@@ -17,7 +17,7 @@ import { BubbleInnerComponent } from '../bubble-inner/bubble-inner.component';
   imports: [CommonModule, FormsModule, IntlModule, BubbleInnerComponent],
   templateUrl: './bubble.component.html',
 })
-export class BubbleComponent implements OnInit {
+export class BubbleComponent implements OnInit, AfterViewChecked {
   private messageService = inject(MessageService);
   public messages: Message[] | undefined;
   private router: ActivatedRoute = inject(ActivatedRoute);
@@ -27,6 +27,7 @@ export class BubbleComponent implements OnInit {
   pageSize = 5;
   newMessageContent: string = '';
   targetUser = '';
+  @ViewChild('messageContainer') messageContainer!: ElementRef;
 
   ngOnInit(): void {
     const username = this.router.snapshot.paramMap.get('username');
@@ -36,6 +37,10 @@ export class BubbleComponent implements OnInit {
     }
     this.targetUser = username;
     this.loadMessageThread();
+  }
+
+  ngAfterViewChecked(): void {
+    this.scrollToBottom();
   }
 
   loadMessageThread() {
@@ -70,5 +75,11 @@ export class BubbleComponent implements OnInit {
         this.toaster.error(err.massage);
       },
     });
+  }
+
+  scrollToBottom(): void {
+    if (this.messageContainer) {
+      this.messageContainer.nativeElement.scrollTop = this.messageContainer.nativeElement.scrollHeight;
+    }
   }
 }

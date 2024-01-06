@@ -1,18 +1,14 @@
-<div class="grid grid-cols-3">
-  <div class="col-span-2 max-w-2xl">
-    <div *ngFor="let msg of messages">
-      <app-bubble-inner [msg]="msg"></app-bubble-inner>
-    </div>
+<div class="flex flex-col max-w-lg mx-auto max-h-[70vh] p-4 h-svh overflow-scroll overflow-x-hidden" #messageContainer>
+  <div *ngFor="let msg of messages">
+    <app-bubble-inner [msg]="msg"></app-bubble-inner>
   </div>
-  <div class="col-span-1">
-    <form #editForm="ngForm" id="editForm" (ngSubmit)="sendMesg()">
-      <textarea name="content" class="textarea textarea-info w-full" placeholder="msg" [(ngModel)]="newMessageContent"></textarea>
-      <button type="submit" class="btn btn-circle btn-primary">Send</button>
-    </form>
-    <div *ngIf="pagination" class="join mx-auto">
-      <button *ngFor="let i of range(1, pagination.totalPages)" class="join-item btn" [class.btn-active]="this.pageNumber === i" (click)="pageChange(i)">
-        {{ i }}
-      </button>
-    </div>
-  </div>
+  <form class="flex flex-row justify-between items-center" #editForm="ngForm" id="editForm" (ngSubmit)="sendMesg()">
+    <textarea name="content" class="textarea textarea-info w-[80%]" placeholder="msg" [(ngModel)]="newMessageContent"></textarea>
+    <button type="submit" class="btn btn-circle btn-primary">Send</button>
+  </form>
+  <!-- <div *ngIf="pagination" class="join mx-auto">
+    <button *ngFor="let i of range(1, pagination.totalPages)" class="join-item btn" [class.btn-active]="this.pageNumber === i" (click)="pageChange(i)">
+      {{ i }}
+    </button>
+  </div> -->
 </div>

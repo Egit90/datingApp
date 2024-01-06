@@ -33,7 +33,7 @@ public class MessageRepository(DataContext dataContext, IMapper mapper) : IMessa
                                 m => m.RecipientUserName == currentUsername && m.SenderUserName == recipientUserName
                                 || m.RecipientUserName == recipientUserName && m.SenderUserName == currentUsername
                             )
-                            .OrderByDescending(m => m.MessageSent).ToListAsync();
+                            .OrderBy(m => m.MessageSent).ToListAsync();
 
         var unredMessages = messages.Where(m => m.DateRead == null && m.RecipientUserName == currentUsername).ToList();
 

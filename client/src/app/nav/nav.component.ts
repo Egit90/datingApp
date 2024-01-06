@@ -31,4 +31,8 @@ export class NavComponent {
     this.accountService.logout();
     this.router.navigateByUrl('/');
   }
+
+  navigate() {
+    this.router.navigateByUrl(this.user ? '/members' : '/');
+  }
 }
