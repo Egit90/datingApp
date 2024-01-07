@@ -21,7 +21,7 @@ public class LikesController(IUserRepository userRepository, ILikesRepository li
 
         if (likedUser == null) return NotFound();
 
-        if (sourceUser!.Username == username) return BadRequest("Source User is Equl to Liked User");
+        if (sourceUser!.UserName == username) return BadRequest("Source User is Equl to Liked User");
 
         var userLike = await _likesRepository.GetUserLike(sourceUserId, likedUser.Id);
 

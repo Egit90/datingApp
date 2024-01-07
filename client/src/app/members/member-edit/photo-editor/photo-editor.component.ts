@@ -46,7 +46,6 @@ export class PhotoEditorComponent implements OnInit {
   }
 
   upload(): void {
-    debugger;
     if (this.currentFile) {
       this.uploadService.upload(this.currentFile).subscribe({
         next: (event) => {

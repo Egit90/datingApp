@@ -31,8 +31,8 @@ public class MessagesController(IUserRepository userRepository, IMessageReposito
         {
             Sender = sender!,
             Recipient = resipent,
-            SenderUserName = sender!.Username,
-            RecipientUserName = resipent.Username,
+            SenderUserName = sender!.UserName,
+            RecipientUserName = resipent.UserName,
             Content = createMessageDto.Content
         };
 

@@ -7,6 +7,7 @@ using API.Helpers;
 using API.Interface;
 using AutoMapper;
 using AutoMapper.Execution;
+using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -21,13 +22,14 @@ public class UsersController(IUserRepository userRepository, IMapper mapper, IPh
     private readonly IMapper _mapper = mapper;
     private readonly IPhotoService _photoService = photoService;
 
+
     [HttpGet]
     public async Task<ActionResult<PagedList<MemberDto>>> GetUsers([FromQuery] UserParams userParams)
     {
         var user = User.GetUserName();
         var currentUser = await _userRepository.GetUserByUsernameAsync(user!);
 
-        userParams.CurrentUserName = currentUser!.Username;
+        userParams.CurrentUserName = currentUser!.UserName;
 
         if (string.IsNullOrEmpty(userParams.Gender))
         {
@@ -90,7 +92,7 @@ public class UsersController(IUserRepository userRepository, IMapper mapper, IPh
 
         if (await _userRepository.SaveAllAsync())
         {
-            return CreatedAtAction(nameof(GetUsers), new { username = user.Username }, _mapper.Map<PhotoDto>(photo));
+            return CreatedAtAction(nameof(GetUsers), new { username = user.UserName }, _mapper.Map<PhotoDto>(photo));
         }
         return BadRequest("Problem adding Photo");
     }

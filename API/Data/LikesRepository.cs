@@ -16,7 +16,7 @@ public class LikesRepository(DataContext dataContext) : ILikesRepository
 
     public async Task<PagedList<LikeDto>> GetUserLikes(LikesParams likesParams)
     {
-        var users = _context.Users.OrderBy(u => u.Username).AsQueryable();
+        var users = _context.Users.OrderBy(u => u.UserName).AsQueryable();
         var likes = _context.Likes.AsQueryable();
 
         if (likesParams.Predicate == "liked")
@@ -37,7 +37,7 @@ public class LikesRepository(DataContext dataContext) : ILikesRepository
             KnownAs = user.KnownAs,
             Id = user.Id,
             PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain).Url,
-            UserName = user.Username
+            UserName = user.UserName
         });
         return await PagedList<LikeDto>.CreateAsync(likedUsers, likesParams.PageNumber, likesParams.PageSize);
     }

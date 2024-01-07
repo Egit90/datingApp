@@ -53,7 +53,6 @@ export class LandingPageComponent implements OnInit {
   }
 
   login() {
-    debugger;
     this.AccountService.login(this.model).subscribe({
       next: (_) => this.router.navigateByUrl('/members'),
     });

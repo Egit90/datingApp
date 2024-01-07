@@ -64,7 +64,6 @@ export class BubbleComponent implements OnInit, AfterViewChecked {
   }
 
   sendMesg() {
-    debugger;
     this.messageService.sendMessage(this.targetUser, this.newMessageContent).subscribe({
       next: (_) => {
         this.toaster.success('message was sent');

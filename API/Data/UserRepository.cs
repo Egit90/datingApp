@@ -16,7 +16,7 @@ public class UserRepository(DataContext context, IMapper mapper) : IUserReposito
     public async Task<MemberDto?> GetMemberAsync(string name)
     {
         return await _context.Users
-           .Where(x => x.Username == name)
+           .Where(x => x.UserName == name)
            .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
            .SingleOrDefaultAsync();
     }
@@ -24,7 +24,7 @@ public class UserRepository(DataContext context, IMapper mapper) : IUserReposito
     public async Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams)
     {
         var query = _context.Users.AsQueryable();
-        query = query.Where(x => x.Username != userParams.CurrentUserName);
+        query = query.Where(x => x.UserName != userParams.CurrentUserName);
         query = query.Where(x => x.Gender == userParams.Gender);
 
         var minDob = DateOnly.FromDateTime(DateTime.Today.AddYears(-userParams.MaxAge - 1));
@@ -58,7 +58,7 @@ public class UserRepository(DataContext context, IMapper mapper) : IUserReposito
     {
         return await _context.Users
         .Include(p => p.Photos)
-        .SingleOrDefaultAsync(x => x.Username == name);
+        .SingleOrDefaultAsync(x => x.UserName == name);
     }
 
     public async Task<bool> SaveAllAsync()
