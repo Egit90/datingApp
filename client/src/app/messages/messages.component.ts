@@ -7,6 +7,9 @@ import { BubbleComponent } from './bubble/bubble.component';
 import { MessagesUsers } from '../_models/MessagesUsers';
 import { MemberCardComponent } from '../members/member-card/member-card.component';
 import { Router } from '@angular/router';
+import { AccountService } from '../_services/account.service';
+import { User } from '../_models/user';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-messages',
@@ -26,7 +29,6 @@ export class MessagesComponent implements OnInit {
   private router = inject(Router);
 
   ngOnInit(): void {
-    this.loadMessages();
     this.getMessagesUsers();
   }
 
@@ -41,17 +43,6 @@ export class MessagesComponent implements OnInit {
 
   goToMessage(targetUser: string) {
     this.router.navigateByUrl(`messages/${targetUser.toLowerCase()}`);
-  }
-
-  loadMessages() {
-    this.messageService.getMessages(this.pageNumber, this.pageSize, this.container).subscribe({
-      next: (resp) => {
-        console.log(resp);
-        this.messages = resp.result;
-        this.pagination = resp.pagination;
-      },
-      error: (err) => console.log(err),
-    });
   }
 
   range(start: number, end: number): number[] {

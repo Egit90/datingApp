@@ -44,7 +44,7 @@ export class UserManagementComponent implements OnInit {
   }
 
   submit() {
-    if (!this.selectedUser?.userName) return;
+    if (!this.selectedUser?.username) return;
     let admin = this.admin?.nativeElement.checked;
     let moderator = this.moderator?.nativeElement.checked;
     let member = this.member?.nativeElement.checked;
@@ -57,7 +57,7 @@ export class UserManagementComponent implements OnInit {
 
     let strRole = roles.join(',');
 
-    this.adminService.editUserRole(this.selectedUser.userName, strRole).subscribe({
+    this.adminService.editUserRole(this.selectedUser.username, strRole).subscribe({
       next: (_) => {
         this.toaster.success('Updated user Successfully');
         this.getUsersWithRoles();

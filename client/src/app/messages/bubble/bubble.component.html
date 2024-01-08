@@ -1,8 +1,8 @@
 <div class="flex flex-col max-w-lg mx-auto max-h-[70vh] p-4 h-svh overflow-scroll overflow-x-hidden" #messageContainer>
-  <div *ngFor="let msg of messages">
+  <div *ngFor="let msg of messageService.messageThread$ | async">
     <app-bubble-inner [msg]="msg"></app-bubble-inner>
   </div>
-  <form class="flex flex-row justify-between items-center" #editForm="ngForm" id="editForm" (ngSubmit)="sendMesg()">
+  <form class="flex flex-row justify-between items-center mt-2" #editForm="ngForm" id="editForm" (ngSubmit)="sendMesg()">
     <textarea name="content" class="textarea textarea-info w-[80%]" placeholder="msg" [(ngModel)]="newMessageContent"></textarea>
     <button type="submit" class="btn btn-circle btn-primary">Send</button>
   </form>

@@ -12,6 +12,11 @@ public class MessageRepository(DataContext dataContext, IMapper mapper) : IMessa
     private readonly DataContext _context = dataContext;
     private readonly IMapper _mapper = mapper;
 
+    public void AddGroup(Group group)
+    {
+        _context.Groups.Add(group);
+    }
+
     public void AddMessage(Message message)
     {
         _context.Messages.Add(message);
@@ -21,6 +26,12 @@ public class MessageRepository(DataContext dataContext, IMapper mapper) : IMessa
     {
         _context.Messages.Remove(message);
     }
+
+    public async Task<Connection> GetConnection(string connectionId)
+    {
+        return await _context.Connections.FindAsync(connectionId);
+    }
+
 
     public async Task<IEnumerable<MessageDto>> GetMeassageThread(string currentUsername, string recipientUserName)
     {
@@ -72,6 +83,13 @@ public class MessageRepository(DataContext dataContext, IMapper mapper) : IMessa
         return PagedList<MessageDto>.CreateAsync(messages, messageParams.PageNumber, messageParams.PageSize);
     }
 
+    public async Task<Group> GetMessageGroup(string groupName)
+    {
+        return await _context.Groups
+                    .Include(x => x.Connections)
+                    .FirstOrDefaultAsync(x => x.Name == groupName);
+    }
+
     public Task<PagedList<MessagesSummary>> GetUserMessageSummary(MessagesSummaryParams paginationParams)
     {
         var query = _context.Messages
@@ -90,6 +108,11 @@ public class MessageRepository(DataContext dataContext, IMapper mapper) : IMessa
         var res = usersInCombinedQuery.ProjectTo<MessagesSummary>(_mapper.ConfigurationProvider);
 
         return PagedList<MessagesSummary>.CreateAsync(res, paginationParams.PageNumber, paginationParams.PageSize);
+    }
+
+    public void RemoveConnection(Connection connection)
+    {
+        _context.Connections.Remove(connection);
     }
 
     public async Task<bool> SaveAllAsync()

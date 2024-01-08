@@ -2,7 +2,7 @@
   *ngIf="msg"
   class="chat"
   [class.chat-start]="!(msg.senderUserName === (this.accountService.currentUser$ | async)?.username)"
-  [class.chat-end]="msg.senderUserName === (this.accountService.currentUser$ | async)?.username"
+  [class.chat-end]="msg.senderUserName.toLowerCase() === (this.accountService.currentUser$ | async)?.username"
 >
   <div class="chat-image avatar">
     <div class="w-10 rounded-full">
@@ -14,5 +14,12 @@
     <time class="text-xs opacity-50">{{ msg.messageSent | intlRelativeTime }}</time>
   </div>
   <div class="chat-bubble">{{ msg.content }}</div>
-  <!-- <div class="chat-footer opacity-50">?</div> -->
+  <div class="chat-footer opacity-50">
+    <a
+      [class.text-blue-300]="msg.dateRead == null"
+      [class.text-green-600]="msg.dateRead != null"
+      class="material-icons cursor-pointer inline-block no-underline h-10 p-2"
+      >done_all</a
+    >
+  </div>
 </div>

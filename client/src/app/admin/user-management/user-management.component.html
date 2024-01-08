@@ -11,7 +11,7 @@
     <tbody>
       <!-- row 1 -->
       <tr *ngFor="let user of users">
-        <td>{{ user.userName }}</td>
+        <td>{{ user.username }}</td>
         <td>{{ user.roles }}</td>
         <td><button class="btn btn-circle" (click)="showModal(user)">Edit Role</button></td>
       </tr>
@@ -21,7 +21,7 @@
 </div>
 <dialog id="my_modal_1" class="modal" #dialog>
   <div class="modal-box">
-    <h3 class="font-bold text-lg">Edit {{ selectedUser?.userName }} Role</h3>
+    <h3 class="font-bold text-lg">Edit {{ selectedUser?.username }} Role</h3>
     <div class="modal-content">
       <label class="label cursor-pointer">
         <span class="label-text">Admin</span>

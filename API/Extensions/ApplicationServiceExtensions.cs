@@ -3,6 +3,7 @@ using API.Helpers;
 using API.Interface;
 using API.interfaces;
 using API.Services;
+using API.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Extensions;
@@ -31,8 +32,12 @@ public static class ApplicationServiceExtensions
 
         services.AddScoped<IPhotoService, PhotoService>();
 
+        services.AddSingleton<PresenceTracker>();
+
         services.AddControllers();
         services.AddSwaggerGen();
+
+        services.AddSignalR();
         return services;
     }
 }
