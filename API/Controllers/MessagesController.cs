@@ -8,12 +8,10 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
-public class MessagesController(IUserRepository userRepository, IMessageRepository messageRepository, IMapper mapper) : BaseApiController
+public class MessagesController(IUnitOfWork unitOfWork, IMapper mapper) : BaseApiController
 {
-    private readonly IUserRepository _userRepository = userRepository;
-    private readonly IMessageRepository _messageRepository = messageRepository;
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly IMapper _mapper = mapper;
-
 
     [HttpPost]
     public async Task<ActionResult<MessageDto>> CreateMessage(CreateMessageDto createMessageDto)
@@ -22,8 +20,8 @@ public class MessagesController(IUserRepository userRepository, IMessageReposito
         if (username == createMessageDto.RecipientUserName.ToLower())
             return BadRequest("Cannot send a message for yourself");
 
-        var sender = await _userRepository.GetUserByUsernameAsync(username!);
-        var resipent = await _userRepository.GetUserByUsernameAsync(createMessageDto.RecipientUserName);
+        var sender = await _unitOfWork.UserRepository.GetUserByUsernameAsync(username!);
+        var resipent = await _unitOfWork.UserRepository.GetUserByUsernameAsync(createMessageDto.RecipientUserName);
 
         if (resipent == null) return NotFound();
 
@@ -36,9 +34,9 @@ public class MessagesController(IUserRepository userRepository, IMessageReposito
             Content = createMessageDto.Content
         };
 
-        _messageRepository.AddMessage(message);
+        _unitOfWork.MessageRepository.AddMessage(message);
 
-        if (await _messageRepository.SaveAllAsync()) return Ok(_mapper.Map<Message, MessageDto>(message));
+        if (await _unitOfWork.Complete()) return Ok(_mapper.Map<Message, MessageDto>(message));
 
         return BadRequest("Failed To send mssage");
     }
@@ -49,7 +47,7 @@ public class MessagesController(IUserRepository userRepository, IMessageReposito
     {
         messageParams.Username = User.GetUserName()!;
 
-        var messages = await _messageRepository.GetMessageForUser(messageParams);
+        var messages = await _unitOfWork.MessageRepository.GetMessageForUser(messageParams);
 
         Response.AddPaginationHeader(new PaginationHeader(messages.CurrentPage, messages.PageSize, messages.TotalCount, messages.TotalPages));
 
@@ -62,18 +60,11 @@ public class MessagesController(IUserRepository userRepository, IMessageReposito
     {
         paginationParams.UserId = User.GetUserID();
 
-        var res = await _messageRepository.GetUserMessageSummary(paginationParams);
+        var res = await _unitOfWork.MessageRepository.GetUserMessageSummary(paginationParams);
 
         Response.AddPaginationHeader(new PaginationHeader(res.CurrentPage, res.PageSize, res.TotalCount, res.TotalPages));
 
         return res;
-    }
-
-    [HttpGet("thread/{username}")]
-    public async Task<ActionResult<IEnumerable<MessageDto>>> GetMessageThread(string username)
-    {
-        var currentUsername = User.GetUserName();
-        return Ok(await _messageRepository.GetMeassageThread(currentUsername, username));
     }
 
 }

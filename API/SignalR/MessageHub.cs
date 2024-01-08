@@ -8,10 +8,9 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace API.SignalR;
 [Authorize]
-public class MessageHub(IMessageRepository messageRepository, IUserRepository userRepository, IMapper mapper, IHubContext<PresenceHub> presenceHub) : Hub
+public class MessageHub(IUnitOfWork unitOfWork, IMapper mapper, IHubContext<PresenceHub> presenceHub) : Hub
 {
-    private readonly IMessageRepository _messageRepository = messageRepository;
-    private readonly IUserRepository _userRepository = userRepository;
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly IMapper _mapper = mapper;
     private readonly IHubContext<PresenceHub> _presenceHub = presenceHub;
 
@@ -30,8 +29,11 @@ public class MessageHub(IMessageRepository messageRepository, IUserRepository us
         await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
 
         await AddToGroup(groupName);
-        var messages = await _messageRepository
+        var messages = await _unitOfWork.MessageRepository
                             .GetMeassageThread(mainUser, otherUser!);
+
+        if (_unitOfWork.HasChanges()) await _unitOfWork.Complete();
+
 
         await Clients.Group(groupName).SendAsync("ReceiveMessageThread", messages);
     }
@@ -43,8 +45,8 @@ public class MessageHub(IMessageRepository messageRepository, IUserRepository us
         if (username == createMessageDto.RecipientUserName.ToLower())
             throw new HubException("Cannot send messages to yourSelf");
 
-        var sender = await _userRepository.GetUserByUsernameAsync(username!);
-        var resipent = await _userRepository.GetUserByUsernameAsync(createMessageDto.RecipientUserName);
+        var sender = await _unitOfWork.UserRepository.GetUserByUsernameAsync(username!);
+        var resipent = await _unitOfWork.UserRepository.GetUserByUsernameAsync(createMessageDto.RecipientUserName);
 
         var SenderUserName = sender?.UserName;
         var resipentUserName = resipent?.UserName;
@@ -61,7 +63,7 @@ public class MessageHub(IMessageRepository messageRepository, IUserRepository us
         };
 
         var groupName = GetGroupName(SenderUserName, resipentUserName);
-        var group = await _messageRepository.GetMessageGroup(groupName);
+        var group = await _unitOfWork.MessageRepository.GetMessageGroup(groupName);
 
         if (group.Connections.Any(x => x.UserName == resipentUserName))
         {
@@ -78,9 +80,9 @@ public class MessageHub(IMessageRepository messageRepository, IUserRepository us
             }
         }
 
-        _messageRepository.AddMessage(message);
+        _unitOfWork.MessageRepository.AddMessage(message);
 
-        if (await _messageRepository.SaveAllAsync())
+        if (await _unitOfWork.Complete())
         {
             await Clients.Group(groupName).SendAsync("NewMessaage", _mapper.Map<Message, MessageDto>(message));
         }
@@ -101,25 +103,25 @@ public class MessageHub(IMessageRepository messageRepository, IUserRepository us
 
     private async Task<bool> AddToGroup(string groupName)
     {
-        var group = await _messageRepository.GetMessageGroup(groupName);
+        var group = await _unitOfWork.MessageRepository.GetMessageGroup(groupName);
         var connection = new Connection(Context.ConnectionId, Context.User.GetUserName());
 
         if (group == null)
         {
             group = new Group(groupName);
-            _messageRepository.AddGroup(group);
+            _unitOfWork.MessageRepository.AddGroup(group);
         }
 
         group.Connections.Add(connection);
 
-        return await _messageRepository.SaveAllAsync();
+        return await _unitOfWork.Complete();
     }
 
     private async Task RemoveFromMessageGroup()
     {
-        var connection = await _messageRepository.GetConnection(Context.ConnectionId);
-        _messageRepository.RemoveConnection(connection);
-        await _messageRepository.SaveAllAsync();
+        var connection = await _unitOfWork.MessageRepository.GetConnection(Context.ConnectionId);
+        _unitOfWork.MessageRepository.RemoveConnection(connection);
+        await _unitOfWork.Complete();
     }
 
 

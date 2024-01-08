@@ -35,18 +35,14 @@ public class MessageRepository(DataContext dataContext, IMapper mapper) : IMessa
 
     public async Task<IEnumerable<MessageDto>> GetMeassageThread(string currentUsername, string recipientUserName)
     {
-        var messages = await _context.Messages
-                            .Include(u => u.Sender)
-                            .ThenInclude(p => p.Photos)
-                            .Include(u => u.Recipient)
-                            .ThenInclude(p => p.Photos)
+        var query = _context.Messages
                             .Where(
                                 m => m.RecipientUserName == currentUsername && m.SenderUserName == recipientUserName
                                 || m.RecipientUserName == recipientUserName && m.SenderUserName == currentUsername
                             )
-                            .OrderBy(m => m.MessageSent).ToListAsync();
+                            .OrderBy(m => m.MessageSent).AsQueryable();
 
-        var unredMessages = messages.Where(m => m.DateRead == null && m.RecipientUserName == currentUsername).ToList();
+        var unredMessages = query.Where(m => m.DateRead == null && m.RecipientUserName == currentUsername).ToList();
 
         if (unredMessages.Any())
         {
@@ -56,9 +52,7 @@ public class MessageRepository(DataContext dataContext, IMapper mapper) : IMessa
             }
         }
 
-        await _context.SaveChangesAsync();
-
-        return _mapper.Map<IEnumerable<MessageDto>>(messages);
+        return await query.ProjectTo<MessageDto>(_mapper.ConfigurationProvider).ToListAsync();
     }
 
     public async Task<Message?> GetMessage(int id)
@@ -115,8 +109,4 @@ public class MessageRepository(DataContext dataContext, IMapper mapper) : IMessa
         _context.Connections.Remove(connection);
     }
 
-    public async Task<bool> SaveAllAsync()
-    {
-        return await _context.SaveChangesAsync() > 0;
-    }
 }

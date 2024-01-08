@@ -18,26 +18,16 @@ public static class ApplicationServiceExtensions
         });
         services.AddCors();
         services.AddScoped<ITokenService, TokenService>();
-
-        services.AddScoped<IUserRepository, UserRepository>();
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
         services.AddScoped<LogUserActivity>();
-        services.AddScoped<ILikesRepository, LikesRepository>();
-
-        services.AddScoped<IMessageRepository, MessageRepository>();
-
-
         services.Configure<CloudinarySettings>(config.GetSection("CloudinarySetting"));
-
         services.AddScoped<IPhotoService, PhotoService>();
-
         services.AddSingleton<PresenceTracker>();
-
         services.AddControllers();
         services.AddSwaggerGen();
-
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddSignalR();
+
         return services;
     }
 }

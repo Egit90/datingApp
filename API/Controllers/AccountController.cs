@@ -1,12 +1,7 @@
-﻿using System.Runtime.CompilerServices;
-using System.Security.Cryptography;
-using System.Text;
-using API.Controllers;
-using API.Data;
+﻿using API.Controllers;
 using API.DTOs;
 using API.Entities;
 using API.Interface;
-using API.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
