@@ -48,7 +48,6 @@ export class UserManagementComponent implements OnInit {
     let admin = this.admin?.nativeElement.checked;
     let moderator = this.moderator?.nativeElement.checked;
     let member = this.member?.nativeElement.checked;
-    debugger;
     let roles: string[] = [];
 
     if (admin) roles.push('Admin');

@@ -19,7 +19,6 @@ export class PresenceService {
   public onlineUsers$ = this.onlineUsersSource.asObservable();
 
   createHubConnection(user: User) {
-    debugger;
     this.hubConnection = new HubConnectionBuilder()
       .withUrl(this.hubUrl + 'presence', { accessTokenFactory: () => user.token })
       .withAutomaticReconnect()

@@ -90,6 +90,15 @@ export class LandingPageComponent implements OnInit {
     };
   }
 
+  fillUser(i: number) {
+    if (i == 1) {
+      this.model.username = 'lisa';
+      this.model.password = 'Pa$$w0rd';
+      return;
+    }
+    this.model.username = 'livingston';
+    this.model.password = 'Pa$$w0rd';
+  }
   private getDateOnly(dob: string | undefined) {
     if (!dob) return;
     let thedob = new Date(dob);

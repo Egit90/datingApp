@@ -16,7 +16,6 @@ import { FormsModule } from '@angular/forms';
 })
 export class MemberListComponent implements OnInit {
   private memberService = inject(MembersService);
-  private accountService = inject(AccountService);
   public pagination: Pagination | undefined;
   public userParams: UserParams | undefined;
   public members: Member[] = [];
@@ -28,6 +27,7 @@ export class MemberListComponent implements OnInit {
   public genderFilter: string = '';
 
   constructor() {
+    debugger;
     this.userParams = this.memberService.getUserParams();
   }
 

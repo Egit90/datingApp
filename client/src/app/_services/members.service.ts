@@ -22,11 +22,11 @@ export class MembersService {
   userParams: UserParams | undefined;
 
   constructor() {
-    this.accountService.currentUser$.pipe(take(1)).subscribe({
+    this.accountService.currentUser$.pipe().subscribe({
       next: (user) => {
         if (user) {
-          this.userParams = new UserParams(user);
           this.user = user;
+          this.userParams = new UserParams(user);
         }
       },
     });

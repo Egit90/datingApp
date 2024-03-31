@@ -34,7 +34,6 @@ export class MessageService {
     });
 
     this.hubConntion.on('NewMessaage', (message) => {
-      debugger;
       this.messageThread$.pipe(take(1)).subscribe({
         next: (messages) => {
           this.messageThreadSource.next([...messages, message]);

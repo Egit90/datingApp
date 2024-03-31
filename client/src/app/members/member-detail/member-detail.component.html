@@ -4,20 +4,27 @@
     <!-- tabs -->
     <ul class="flex flex-wrap text-sm font-medium text-center border-b border-green-500">
       <li class="me-2" (click)="toggleTab(1)">
-        <a class="cursor-pointer inline-block text-violet-300 hover:text-pink-500 hover:text-underline p-4 hover:scale-125 duration-300 ease-in-out">About</a>
+        <a class="cursor-pointer inline-block text-violet-300 hover:text-pink-500 hover:text-underline p-4 hover:scale-125 duration-300 ease-in-out"
+          >About</a
+        >
       </li>
       <li class="me-2" (click)="toggleTab(2)">
-        <a class="cursor-pointer inline-block text-violet-300 hover:text-pink-500 hover:text-underline p-4 hover:scale-125 duration-300 ease-in-out">Intrests</a>
+        <a class="cursor-pointer inline-block text-violet-300 hover:text-pink-500 hover:text-underline p-4 hover:scale-125 duration-300 ease-in-out"
+          >Intrests</a
+        >
       </li>
       <li class="me-2" (click)="toggleTab(3)">
-        <a class="cursor-pointer inline-block text-violet-300 hover:text-pink-500 hover:text-underline p-4 hover:scale-125 duration-300 ease-in-out">Photos</a>
-      </li>
-      <li class="me-2" (click)="toggleTab(4)">
-        <a class="cursor-pointer inline-block text-violet-300 hover:text-pink-500 hover:text-underline p-4 hover:scale-125 duration-300 ease-in-out">Messages</a>
+        <a class="cursor-pointer inline-block text-violet-300 hover:text-pink-500 hover:text-underline p-4 hover:scale-125 duration-300 ease-in-out"
+          >Photos</a
+        >
       </li>
     </ul>
     <!-- main photo -->
-    <div *ngIf="!photoBool" class="p-4 md:p-12 mt-3 text-center block rounded-full shadow-xl mx-auto h-48 w-48 bg-cover bg-center" style="background-image: url('{{ member.photoUrl }}')"></div>
+    <div
+      *ngIf="!photoBool"
+      class="p-4 md:p-12 mt-3 text-center block rounded-full shadow-xl mx-auto h-48 w-48 bg-cover bg-center"
+      style="background-image: url('{{ member.photoUrl }}')"
+    ></div>
     <!--about  -->
     <app-about *ngIf="aboutBool" [member]="member"></app-about>
     <app-member-photo *ngIf="photoBool" [srcList]="images"> </app-member-photo>

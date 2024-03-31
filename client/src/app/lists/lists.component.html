@@ -23,7 +23,7 @@
   </ng-container>
 </div>
 
-<div *ngIf="pagination" class="join mx-auto">
+<div *ngIf="pagination" class="join mx-auto flex justify-center">
   <button *ngFor="let i of range(1, pagination.totalPages)" class="join-item btn" [class.btn-active]="this.pageNumber === i" (click)="pageChange(i)">
     {{ i }}
   </button>
