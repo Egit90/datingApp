@@ -31,7 +31,7 @@ if (app.Environment.IsDevelopment())
 app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseHttpsRedirection();
-app.UseCors(corsservices => corsservices
+app.UseCors(corsServices => corsServices
                             .AllowAnyHeader()
                             .AllowAnyMethod()
                             .AllowCredentials()
@@ -43,10 +43,15 @@ app.UseCors(corsservices => corsservices
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
 app.MapControllers();
 
 app.MapHub<PresenceHub>("hubs/presence");
 app.MapHub<MessageHub>("hubs/message");
+
+app.MapFallbackToController("Index", "Fallback");
 
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;

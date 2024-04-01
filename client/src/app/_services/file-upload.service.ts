@@ -8,7 +8,7 @@ import { environment } from '../../environments/environment';
 })
 export class FileUploadService {
   private http = inject(HttpClient);
-  private baseUrl = environment.apiUrl; //'https://localhost:5001/api';
+  private baseUrl = environment.apiUrl;
 
   upload(file: File): Observable<HttpEvent<any>> {
     const formData: FormData = new FormData();

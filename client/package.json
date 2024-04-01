@@ -44,6 +44,12 @@
     "tailwindcss": "^3.4.0",
     "typescript": "~5.2.2"
   },
+  "browser": {
+    "http": false,
+    "https": false,
+    "url": false,
+    "util": false
+  },
   "overrides": {
     "ng2-file-upload": {
       "@angular/common": "17.0.4",
